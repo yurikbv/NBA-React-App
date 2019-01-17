@@ -1,0 +1,42 @@
+.list {
+    margin-top: 30px;
+}
+
+.slick-dots {
+    background: #242424;
+}
+
+.slick-dots li.slick-active button:before {
+    color: white;
+}
+
+.newsList__item {
+    border: 1px solid #f2f2f2;
+    background: white;
+    margin-top: 0;
+    padding: 8px 5px 0 5px;
+}
+
+.newsList__item h2 {
+    font-size: 13px;
+    line-height: 21px;
+    margin: 5px 0;
+    color: #525252;
+}
+
+.newsList__item a {
+    text-decoration: none;
+}
+
+.newsList__wrapper{
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 500ms ease-in;
+}
+
+.newsList__wrapper-enter-active,
+.newsList__wrapper-enter-done{
+    opacity: 1;
+    transform: translateX(0%);
+}
