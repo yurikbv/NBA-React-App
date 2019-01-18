@@ -62,6 +62,29 @@ class NewsList extends Component {
           </CSSTransition>
         ));
         break;
+      case 'cardMain':
+        template = this.state.items.map((item,i) => (
+          <CSSTransition
+            classNames="newsList__wrapper"
+            timeout={500}
+            key={i}>
+            <Link to={`/articles/${item.id}`}>
+              <div className="flex-wrapper">
+                <div
+                  className="left"
+                  style={{
+                    background: `url(/images/articles/${item.image})`
+                  }}
+                > <div> </div></div>
+                <div className="right">
+                  <CardInfo teams={this.state.teams} team={item.team} date={item.date}/>
+                  <h2>{item.title}</h2>
+                </div>
+              </div>
+            </Link>
+          </CSSTransition>
+        ));
+        break;
       default:
         template = null
     }

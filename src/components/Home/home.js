@@ -9,7 +9,7 @@ const Home = () => {
     <div>
       <NewsSlider type="featured" start={0} finish={5} settings={{dots: true}}/>
       <NewsList type="card" loadmore={true} start={0} amount={3}/>
-      <VideosList type="card" title={true} loadmore={false} start={0} amount={3}/>
+      <VideosList type="card" title={true} loadmore={true} start={0} amount={3}/>
     </div>
   );
 };
