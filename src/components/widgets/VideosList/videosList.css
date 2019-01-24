@@ -36,3 +36,16 @@
 .relatedWrapper {
     margin: 0 5px;
 }
+
+.transitionList__wrapper {
+    box-sizing: border-box;
+    /*opacity: 0;*/
+    /*transform: translateX(-80%);*/
+    transition: all 500ms ease-in;
+}
+
+.transitionList__wrapper-enter-active,
+.transitionList__wrapper-enter-done{
+    opacity: 1;
+    transform: translateX(0%);
+}

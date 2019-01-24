@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import axios from 'axios';
-
-import {URL} from "../../../../config";
 import '../../articles.css';
 import HeaderItem from "./header";
 import VideosRelated from '../../../widgets/VideosList/VideosRelated/videosRelated'
+import { firebaseLooper, firebaseTeams, firebaseVideos} from "../../../../firebase";
 
 class VideoArticle extends Component {
 
@@ -16,33 +14,33 @@ class VideoArticle extends Component {
   };
 
   componentWillMount() {
-    axios.get(`${URL}/videos/?id=${this.props.match.params.id}`)
-      .then( ( response) => {
-        let article = response.data[0];
-        axios.get(`${URL}/teams?id=${article.team}`)
-          .then(response => {
+    firebaseVideos.orderByChild('id').equalTo(+this.props.match.params.id).once('value')
+      .then(snapshot => {
+        let article = firebaseLooper(snapshot)[0];
+        firebaseTeams.orderByChild('id').equalTo(article.team).once('value')
+          .then(snapshot => {
             this.setState({
               article,
-              team: response.data
+              team: firebaseLooper(snapshot)
             });
             this.getRelated();
-          })
-      })
+          }).catch(e => console.log(e));
+      }).catch(e => console.log(e));
   }
 
   getRelated = () => {
-    axios.get(`${URL}/teams`).then( response => {
-      console.log(this.state.team[0].city);
-      let  teams = response.data;
-      axios.get(`${URL}/videos?q=${this.state.team[0].city}&_limit=3`)
-        .then( response => {
-
-          this.setState({
-            teams,
-            related: response.data
-          });
-        })
-    })
+    firebaseTeams.once('value')
+      .then(snapshot => {
+        let  teams = firebaseLooper(snapshot);
+        firebaseVideos.orderByChild('team').equalTo(this.state.article.team)
+          .limitToFirst(3).once('value')
+          .then(snapshot => {
+            this.setState({
+                      teams,
+                      related: firebaseLooper(snapshot)
+                    });
+          })
+      })
   };
 
   render() {

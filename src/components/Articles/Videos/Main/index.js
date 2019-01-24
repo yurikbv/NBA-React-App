@@ -8,8 +8,8 @@ const VideosMain = () => {
         type="card"
         title={false}
         loadmore={true}
-        start={0}
-        amount={5}
+        start={1}
+        amount={3}
       />
     </div>
   );

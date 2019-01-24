@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {CSSTransition, TransitionGroup } from 'react-transition-group';
 import {Link} from "react-router-dom";
-import axios from 'axios';
-
-import {URL} from '../../../config';
+import { firebaseArticles, firebaseTeams, firebaseLooper} from "../../../firebase";
 import './newsList.css';
 import Button from '../Buttons/buttons'
 import CardInfo from '../CardInfo/cardInfo'
@@ -23,23 +21,30 @@ class NewsList extends Component {
   }
 
   request = (start, end) => {
-
     if(this.state.teams.length < 1){
-      axios.get(`${URL}/teams`).then((response) => this.setState({ teams: response.data}))
+
+      firebaseTeams.once('value')
+        .then(snapshot => {
+          const teams = firebaseLooper(snapshot);
+          this.setState({
+            teams
+          })
+        }).catch(e => console.log(e))
     }
 
-    axios.get(`${URL}/articles?_start=${start}&_end=${end}`)
-      .then(response => {
+    firebaseArticles.orderByChild('id').startAt(start).endAt(end).once('value')
+      .then((snapshot) => {
+        const items = firebaseLooper(snapshot);
         this.setState({
-          items: [...this.state.items, ...response.data ],
+          items: [...this.state.items, ...items ],
           finish: end
         })
-      })
+      }).catch(e => console.log(e))
   };
 
   loadMore = () => {
     let end =  this.state.finish + this.state.amount;
-    this.request(this.state.finish, end)
+    this.request(this.state.finish+1, end)
   };
 
   renderNews = (type) => {
@@ -68,20 +73,24 @@ class NewsList extends Component {
             classNames="newsList__wrapper"
             timeout={500}
             key={i}>
-            <Link to={`/articles/${item.id}`}>
-              <div className="flex-wrapper">
-                <div
-                  className="left"
-                  style={{
-                    background: `url(/images/articles/${item.image})`
-                  }}
-                > <div> </div></div>
-                <div className="right">
-                  <CardInfo teams={this.state.teams} team={item.team} date={item.date}/>
-                  <h2>{item.title}</h2>
-                </div>
+            <div className="newsList__wrapper">
+              <div className="newsList__item">
+                <Link to={`/articles/${item.id}`}>
+                  <div className="flex-wrapper">
+                    <div
+                      className="left"
+                      style={{
+                        background: `url(/images/articles/${item.image})`
+                      }}
+                    > <div> </div></div>
+                    <div className="right">
+                      <CardInfo teams={this.state.teams} team={item.team} date={item.date}/>
+                      <h2>{item.title}</h2>
+                    </div>
+                  </div>
+                </Link>
               </div>
-            </Link>
+            </div>
           </CSSTransition>
         ));
         break;
