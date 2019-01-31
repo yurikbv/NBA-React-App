@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { firebase } from '../../firebase';
 
 import './signin.css';
 import FormField from '../widgets/FormFields/formFields';
@@ -105,9 +106,29 @@ class SignIn extends Component {
           registerError: ''
         });
         if(type){
-
+          firebase.auth()
+            .signInWithEmailAndPassword(dataToSubmit.email,dataToSubmit.password)
+            .then(() => {
+              this.props.history.push('/')
+            })
+            .catch(error => {
+              this.setState({
+                loading: false,
+                registerError: error.message
+              });
+            })
         } else {
-
+          firebase.auth()
+            .createUserWithEmailAndPassword(dataToSubmit.email,dataToSubmit.password)
+            .then(() => {
+              this.props.history.push('/')
+            })
+            .catch(error => {
+              this.setState({
+                loading: false,
+                registerError: error.message
+              });
+            })
         }
       }
 
@@ -121,6 +142,11 @@ class SignIn extends Component {
         <button onClick={event => this.submitForm(event,false)}>Register Now</button>
         <button onClick={event => this.submitForm(event,true)}>Log in</button>
       </div>
+  );
+
+  showError = () => (
+    this.state.registerError !== ''
+      ? <div className="register__error">{this.state.registerError}</div> : null
   );
 
   render() {
@@ -139,6 +165,7 @@ class SignIn extends Component {
             change={this.updateForm}
           />
           {this.submitButton()}
+          {this.showError()}
         </form>
       </div>
     );

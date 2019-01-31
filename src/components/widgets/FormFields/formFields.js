@@ -4,15 +4,15 @@ import './formFields.css';
 const FormFields = ({formData, change, id}) => {
 
   const showError = () => {
-    let erroeMessage = null;
+    let errorMessage = null;
     if(formData.validation && !formData.valid) {
-      erroeMessage = (
+      errorMessage = (
         <div className='labelError'>
           {formData.validationMessage}
         </div>
       )
     }
-    return erroeMessage;
+    return errorMessage;
   };
 
   const renderTemplate = () => {
@@ -28,6 +28,24 @@ const FormFields = ({formData, change, id}) => {
             onBlur={event => change(event, id, {blur: true})}
             />
             {showError()}
+          </div>
+        );
+        break;
+      case 'select':
+        formTemplate = (
+          <div>
+            <select
+              value={formData.value}
+              name={formData.config.name}
+              onChange={event => change(event, id, {blur: false})}
+              onBlur={event => change(event, id, {blur: true})}
+            >
+              {formData.config.options.map((item,i) => (
+                <option key={i} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
           </div>
         );
         break;

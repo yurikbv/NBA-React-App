@@ -14,4 +14,9 @@
 .option span {
     color: white;
     margin-right: 10px;
+    cursor: pointer;
+}
+
+.option .signOut {
+    color: inherit;
 }
