@@ -1,27 +1,38 @@
 import React, {Component} from 'react';
-import { firebaseLooper, firebaseTeams, firebaseArticles } from "../../../../firebase";
+import { firebaseLooper, firebaseTeams, firebaseDB, firebase } from "../../../../firebase";
 import HeaderItem from './header';
 import '../../articles.css';
 
 class NewsArticles extends Component {
   state = {
     article: [],
-    team: []
+    team: [],
+    imageURL: ''
   };
 
   componentWillMount() {
-    firebaseArticles.orderByChild('id').equalTo(+this.props.match.params.id).once('value')
+    console.log(this.props.match.params);
+    firebaseDB.ref(`/articles/${this.props.match.params.id}`).once('value')
       .then(snapshot => {
-        let article = firebaseLooper(snapshot)[0];
-        firebaseTeams.orderByChild('id').equalTo(article.team).once('value')
+        let article = snapshot.val();
+        firebaseTeams.orderByChild('id').equalTo(+article.team).once('value')
           .then(snapshot => {
             this.setState({
                   article,
                   team: firebaseLooper(snapshot)
                 })
           }).catch(e => console.log(e));
+        this.getImageURL(article.image)
       }).catch(e => console.log(e));
   }
+
+  getImageURL = (filename) => {
+    firebase.storage().ref('images')
+      .child(filename).getDownloadURL()
+      .then( url => {
+        this.setState({imageURL: url})
+      })
+  };
 
   render() {
     const {article, team} = this.state;
@@ -36,9 +47,14 @@ class NewsArticles extends Component {
           <h1>{article.title}</h1>
           <div
             className="articleImage">
-            <img src={`/images/articles/${article.image}`} alt=""/>
+            <img src={this.state.imageURL} alt="main-image"/>
           </div>
-          <div className="articleText">{article.body}</div>
+          <div
+            className="articleText"
+            dangerouslySetInnerHTML={{
+              __html: article.body
+            }}
+          />
         </div>
       </div>
     );

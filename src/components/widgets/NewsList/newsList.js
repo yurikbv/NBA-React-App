@@ -17,7 +17,7 @@ class NewsList extends Component {
   };
 
   componentWillMount() {
-    this.request(this.state.start, this.state.finish)
+    this.request(this.state.start, this.state.finish);
   }
 
   request = (start, end) => {
@@ -39,7 +39,7 @@ class NewsList extends Component {
           items: [...this.state.items, ...items ],
           finish: end
         })
-      }).catch(e => console.log(e))
+      }).catch(e => console.log(e));
   };
 
   loadMore = () => {

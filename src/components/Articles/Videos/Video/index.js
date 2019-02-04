@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../../articles.css';
 import HeaderItem from "./header";
 import VideosRelated from '../../../widgets/VideosList/VideosRelated/videosRelated'
-import { firebaseLooper, firebaseTeams, firebaseVideos} from "../../../../firebase";
+import { firebaseLooper, firebaseTeams, firebaseVideos, firebaseDB} from "../../../../firebase";
 
 class VideoArticle extends Component {
 
@@ -14,9 +14,9 @@ class VideoArticle extends Component {
   };
 
   componentWillMount() {
-    firebaseVideos.orderByChild('id').equalTo(+this.props.match.params.id).once('value')
+    firebaseDB.ref(`/videos/${this.props.match.params.id}`).once('value')
       .then(snapshot => {
-        let article = firebaseLooper(snapshot)[0];
+        let article = snapshot.val();
         firebaseTeams.orderByChild('id').equalTo(article.team).once('value')
           .then(snapshot => {
             this.setState({

@@ -7,9 +7,9 @@ import VideosList from '../widgets/VideosList/videosList';
 const Home = () => {
   return (
     <div>
-      <NewsSlider type="featured" finish={5} settings={{dots: true}}/>
-      <NewsList type="card" loadmore={true} start={1} amount={3}/>
-      <VideosList type="card" title={true} loadmore={true} start={1} amount={3}/>
+      <NewsSlider type="featured" finish={4} settings={{dots: true}}/>
+      <NewsList type="card" loadmore={true} start={0} amount={3}/>
+      <VideosList type="card" title={true} loadmore={true} start={0} amount={3}/>
     </div>
   );
 };
