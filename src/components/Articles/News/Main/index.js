@@ -12,12 +12,12 @@ const NewsMain = () => {
           dots: false
         }}
         start={0}
-        finish={20}
+        finish={5}
       />
       <NewsList
         type="cardMain"
         loadMore={true}
-        start={3}
+        start={0}
         amount={3}
       />
     </div>

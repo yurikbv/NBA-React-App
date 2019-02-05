@@ -11,10 +11,16 @@
 }
 
 .featured__image{
-    height: 330px;
+    height: 90vh;
     background-size: cover !important;
     background-repeat: no-repeat !important;
     background-position: center top !important;
+}
+
+@media all and (max-width: 860px){
+    .featured__image{
+        height: 360px;
+    }
 }
 
 .featured__caption{

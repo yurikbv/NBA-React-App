@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { firebaseTeams, firebaseArticles, firebase } from '../../firebase';
+import { firebaseTeams, firebaseArticles, firebase, firebaseDB } from '../../firebase';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
+import { EditorState} from 'draft-js';
 import { stateToHTML } from "draft-js-export-html";
 import Uploader from '../widgets/FileUploader/fileUploader';
 
@@ -132,6 +132,12 @@ class Dashboard extends Component {
     return error;
   };
 
+  addLinkId = (id, place) => {
+    firebaseDB.ref(`/${place}/${id}`).update({
+      linkId: id
+    })
+  };
+
   submitForm = (event) => {
     event.preventDefault();
     let dataToSubmit = {};
@@ -161,6 +167,7 @@ class Dashboard extends Component {
           dataToSubmit['id'] = articleId + 1;
           firebaseArticles.push(dataToSubmit)
             .then(article => {
+              this.addLinkId(article.key,'articles');
               this.props.history.push(`/articles/${article.key}`)
             }).catch(e => {
               this.setState({postError: e.message})
@@ -190,7 +197,7 @@ class Dashboard extends Component {
   onEditorStateChange = (editorState) => {
 
     let contentState = editorState.getCurrentContent();
-    let rawState = convertToRaw(contentState);
+    // let rawState = convertToRaw(contentState);
     let html = stateToHTML(contentState);
 
     this.updateForm(null, 'body',null,html);

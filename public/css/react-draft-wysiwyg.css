@@ -13,13 +13,13 @@
   text-transform: capitalize;
 }
 .rdw-option-wrapper:hover {
-  box-shadow: 1px 1px 0px #BFBDBD;
+  box-shadow: 1px 1px 0 #BFBDBD;
 }
 .rdw-option-wrapper:active {
-  box-shadow: 1px 1px 0px #BFBDBD inset;
+  box-shadow: 1px 1px 0 #BFBDBD inset;
 }
 .rdw-option-active {
-  box-shadow: 1px 1px 0px #BFBDBD inset;
+  box-shadow: 1px 1px 0 #BFBDBD inset;
 }
 .rdw-option-disabled {
   opacity: 0.3;
@@ -33,21 +33,20 @@
   border-radius: 2px;
   margin: 0 3px;
   text-transform: capitalize;
-  background: white;
 }
 .rdw-dropdown-wrapper:focus {
   outline: none;
 }
 .rdw-dropdown-wrapper:hover {
-  box-shadow: 1px 1px 0px #BFBDBD;
+  box-shadow: 1px 1px 0 #BFBDBD;
   background-color: #FFFFFF;
 }
 .rdw-dropdown-wrapper:active {
-  box-shadow: 1px 1px 0px #BFBDBD inset;
+  box-shadow: 1px 1px 0 #BFBDBD inset;
 }
 .rdw-dropdown-carettoopen {
-  height: 0px;
-  width: 0px;
+  height: 0;
+  width: 0;
   position: absolute;
   top: 35%;
   right: 10%;
@@ -56,8 +55,8 @@
   border-right: 5px solid transparent;
 }
 .rdw-dropdown-carettoclose {
-  height: 0px;
-  width: 0px;
+  height: 0;
+  width: 0;
   position: absolute;
   top: 35%;
   right: 10%;
@@ -85,7 +84,7 @@
   overflow-y: scroll;
 }
 .rdw-dropdown-optionwrapper:hover {
-  box-shadow: 1px 1px 0px #BFBDBD;
+  box-shadow: 1px 1px 0 #BFBDBD;
   background-color: #FFFFFF;
 }
 .rdw-dropdownoption-default {
@@ -278,7 +277,7 @@
   box-shadow: -1px -2px 1px #BFBDBD;
 }
 .rdw-colorpicker-option-active {
-  box-shadow: 0px 0px 2px 2px #BFBDBD;
+  box-shadow: 0 0 2px 2px #BFBDBD;
 }
 .rdw-link-wrapper {
   display: flex;
@@ -347,10 +346,10 @@
   text-transform: capitalize;
 }
 .rdw-link-modal-btn:hover {
-  box-shadow: 1px 1px 0px #BFBDBD;
+  box-shadow: 1px 1px 0 #BFBDBD;
 }
 .rdw-link-modal-btn:active {
-  box-shadow: 1px 1px 0px #BFBDBD inset;
+  box-shadow: 1px 1px 0 #BFBDBD inset;
 }
 .rdw-link-modal-btn:focus {
   outline: none !important;
@@ -443,10 +442,10 @@
   text-transform: capitalize;
 }
 .rdw-embedded-modal-btn:hover {
-  box-shadow: 1px 1px 0px #BFBDBD;
+  box-shadow: 1px 1px 0 #BFBDBD;
 }
 .rdw-embedded-modal-btn:active {
-  box-shadow: 1px 1px 0px #BFBDBD inset;
+  box-shadow: 1px 1px 0 #BFBDBD inset;
 }
 .rdw-embedded-modal-btn:focus {
   outline: none !important;
@@ -657,10 +656,10 @@
   text-transform: capitalize;
 }
 .rdw-image-modal-btn:hover {
-  box-shadow: 1px 1px 0px #BFBDBD;
+  box-shadow: 1px 1px 0 #BFBDBD;
 }
 .rdw-image-modal-btn:active {
-  box-shadow: 1px 1px 0px #BFBDBD inset;
+  box-shadow: 1px 1px 0 #BFBDBD inset;
 }
 .rdw-image-modal-btn:focus {
   outline: none !important;

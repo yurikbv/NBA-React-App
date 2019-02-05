@@ -11,7 +11,6 @@ class NewsArticles extends Component {
   };
 
   componentWillMount() {
-    console.log(this.props.match.params);
     firebaseDB.ref(`/articles/${this.props.match.params.id}`).once('value')
       .then(snapshot => {
         let article = snapshot.val();
@@ -47,7 +46,7 @@ class NewsArticles extends Component {
           <h1>{article.title}</h1>
           <div
             className="articleImage">
-            <img src={this.state.imageURL} alt="main-image"/>
+            <img src={this.state.imageURL} alt={this.state.imageURL}/>
           </div>
           <div
             className="articleText"

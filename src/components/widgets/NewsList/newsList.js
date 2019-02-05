@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {CSSTransition, TransitionGroup } from 'react-transition-group';
 import {Link} from "react-router-dom";
-import { firebaseArticles, firebaseTeams, firebaseLooper} from "../../../firebase";
+import { firebaseArticles, firebaseTeams, firebaseLooper, firebase} from "../../../firebase";
 import './newsList.css';
 import Button from '../Buttons/buttons'
 import CardInfo from '../CardInfo/cardInfo'
@@ -20,6 +20,7 @@ class NewsList extends Component {
     this.request(this.state.start, this.state.finish);
   }
 
+
   request = (start, end) => {
     if(this.state.teams.length < 1){
 
@@ -34,11 +35,29 @@ class NewsList extends Component {
 
     firebaseArticles.orderByChild('id').startAt(start).endAt(end).once('value')
       .then((snapshot) => {
-        const items = firebaseLooper(snapshot);
-        this.setState({
-          items: [...this.state.items, ...items ],
-          finish: end
-        })
+        let items = firebaseLooper(snapshot);
+
+        const asyncFunction = (item, i, cb) => {
+          firebase.storage().ref('images').child(item.image).getDownloadURL()
+            .then( url => {
+              items[i].image = url;
+              cb();
+            });
+        };
+
+        let requests = items.map((item, i) => {
+          return new Promise(resolve => {
+            asyncFunction(item, i, resolve)
+          })
+        });
+
+        Promise.all(requests).then( () => {
+          this.setState({
+            items: [...this.state.items, ...items ],
+            finish: end
+          })
+        });
+
       }).catch(e => console.log(e));
   };
 
@@ -58,7 +77,7 @@ class NewsList extends Component {
             key={i}>
             <div className="newsList__wrapper">
               <div className="newsList__item">
-                <Link to={`/articles/${item.id}`}>
+                <Link to={`/articles/${item.linkId}`}>
                   <CardInfo teams={this.state.teams} team={item.team} date={item.date}/>
                   <h2>{item.title}</h2>
                 </Link>
@@ -75,12 +94,12 @@ class NewsList extends Component {
             key={i}>
             <div className="newsList__wrapper">
               <div className="newsList__item">
-                <Link to={`/articles/${item.id}`}>
+                <Link to={`/articles/${item.linkId}`}>
                   <div className="flex-wrapper">
                     <div
                       className="left"
                       style={{
-                        background: `url(/images/articles/${item.image})`
+                        background: `url(${item.image})`
                       }}
                     > <div> </div></div>
                     <div className="right">

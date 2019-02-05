@@ -55,7 +55,7 @@ class Uploader extends Component {
           <p>Progress: {this.state.progress}</p>
           : null}
         {this.state.fileURL ?
-          <img src={this.state.fileURL} style={{width: '300px'}} alt='head-image'/>
+          <img src={this.state.fileURL} style={{width: '300px'}} alt={this.state.fileURL}/>
           : null}
       </div>
     );
