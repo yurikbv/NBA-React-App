@@ -132,11 +132,6 @@ class Dashboard extends Component {
     return error;
   };
 
-  addLinkId = (id, place) => {
-    firebaseDB.ref(`/${place}/${id}`).update({
-      linkId: id
-    })
-  };
 
   submitForm = (event) => {
     event.preventDefault();
@@ -167,7 +162,6 @@ class Dashboard extends Component {
           dataToSubmit['id'] = articleId + 1;
           firebaseArticles.push(dataToSubmit)
             .then(article => {
-              this.addLinkId(article.key,'articles');
               this.props.history.push(`/articles/${article.key}`)
             }).catch(e => {
               this.setState({postError: e.message})

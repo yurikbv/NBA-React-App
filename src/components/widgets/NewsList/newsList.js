@@ -77,7 +77,7 @@ class NewsList extends Component {
             key={i}>
             <div className="newsList__wrapper">
               <div className="newsList__item">
-                <Link to={`/articles/${item.linkId}`}>
+                <Link to={`/articles/${item.id}`}>
                   <CardInfo teams={this.state.teams} team={item.team} date={item.date}/>
                   <h2>{item.title}</h2>
                 </Link>
@@ -94,7 +94,7 @@ class NewsList extends Component {
             key={i}>
             <div className="newsList__wrapper">
               <div className="newsList__item">
-                <Link to={`/articles/${item.linkId}`}>
+                <Link to={`/articles/${item.id}`}>
                   <div className="flex-wrapper">
                     <div
                       className="left"
